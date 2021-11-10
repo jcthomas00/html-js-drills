@@ -15,19 +15,20 @@
  */
 
 function addName() {
-  console.log("addName() ran");
-
   // See:
   // - https://www.digitalocean.com/community/tutorials/js-innertext-and-innerhtml
   // - https://www.w3schools.com/jsref/prop_node_innertext.asp
 
   let nameElement = document.querySelector("#name");
+  nameElement.innerText = "Jacob";
 }
 
 function addFavoriteThings() {
   console.log("Called addFavoriteThings()");
   let favoriteThings = document.querySelector("#favthings");
   console.log(favoriteThings);
+  let favArray = ['Tamarindo', 'Anime', 'Meg Thee Stallion'];
+  favoriteThings.innerHTML = favArray.map(item=>`<li>${item}</li>`).join('');
 
   // 1. Get a reference to <ul id="favthings">
   // 2. Create a few list items representing your favorite things
@@ -53,11 +54,12 @@ function replaceImage() {
 
 function changeCodeStatus() {
   console.log("Called changeCodeStatus()");
-  
+  document.querySelector('#codestatus').innerText = 'I loves to code!!';
   // codeStatus.innerHTML=`<img src="doge.gif" alt="My Doge">`;
   // 1. Get a reference to <div id="codestatus">
   // 2. Create image element containing a sweet ol' meme
   // 3. Replace text in codestatus w/ image
+
 }
 
 // Get a reference to the button w/ id="show-info-button"
@@ -99,6 +101,29 @@ informationForm.addEventListener("submit", function (event) {
 
   // Google things like:
   //   javascript form element get values
+
+  let formInfo = Object.fromEntries(new FormData(event.target));
+  console.log(formInfo.codercheck);
+  if(formInfo !== {}){
+    document.querySelector("#firstname").innerHTML = formInfo.fname;
+    document.querySelector("#lastname").innerHTML = formInfo.lname;
+    document.querySelector("#chosencar").innerHTML = formInfo.cars;
+    document.querySelector("#icecreamstatus").innerHTML = formInfo.icecream
+    
+      let checkList = document.createElement('ul');
+      if(formInfo.humancheck === ''){
+        let check1  = document.createElement('li')
+        check1.innerText = 'Human';
+        checkList.appendChild(check1)
+      }
+      if(formInfo.codercheck === ''){
+        let check1  = document.createElement('li');
+        check1.innerText = 'Coder';
+        checkList.appendChild(check1)
+      }
+      document.querySelector("#checks").appendChild(checkList);
+
+  }
 });
 
 /*************************************
@@ -119,7 +144,7 @@ let consoleLogButton = document.querySelector("#console-log-button");
 
 // Log something when that button is clicked
 consoleLogButton.addEventListener("click", function () {
-  console.log("Change this text if you want!");
+  console.log("Aloha");
 });
 
 let makeBlueButton = document.querySelector("#make-blue-button");
@@ -128,13 +153,17 @@ makeBlueButton.addEventListener("click", function () {
   // Your job:
   //  1. When a user clicks "Change the text to the right blue"
   //  2. Change the text in <div id="colorText">...</div> to blue
+  document.querySelector('#colorText').setAttribute("style","color:blue")
+
 });
 
 // Adding an event listener to document means the "keydown" event
 // can happen anywhere on the page and we'll respond.
 document.addEventListener("keydown", function (event) {
   
-
+  if(event.key == 'r'){
+    document.querySelector('#colorText').setAttribute("style","color:red")
+  }
   // This is called whenever a user pressed any key.
   // Your job:
   //  1. Turn colorText red whenever a user presses the 'r' key
@@ -159,10 +188,14 @@ document.addEventListener("keydown", function (event) {
  *   it is next to.
  */
 let toDoListForm = document.querySelector(".form");
-console.log('todolistform',toDoListForm);
+let taskArray = ['I need to do something!'];
 // Do something when form is submitted
 toDoListForm.addEventListener("submit", function (event) {
-
+  event.preventDefault();
+  taskArray.push(document.querySelector('#todo').value)
+  
+  document.querySelector('#todos').innerHTML = taskArray.map(val => `<li>${val}</li>`).join('')
+  
 });
 
 // Your code goes here
@@ -183,7 +216,11 @@ toDoListForm.addEventListener("submit", function (event) {
  *   - https://javascript.info/settimeout-setinterval
  *
  */
-
+let i = 0;
+setInterval(()=>{
+  i++;
+  document.querySelector('#seconds').innerHTML = i;
+},1000)
 // Your code goes here
 
 /****************************************
@@ -199,3 +236,12 @@ toDoListForm.addEventListener("submit", function (event) {
  */
 
 // Your code goes here
+
+//window.alert(selObj);
+document.body.addEventListener('mouseup', (e)=>{
+  var selection = window.getSelection().toString();
+  if(selection !== ''){
+    alert(selection)
+  }
+  console.log("selection: ",selection)
+})
